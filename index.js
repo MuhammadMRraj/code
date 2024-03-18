@@ -30,6 +30,9 @@ app.use("/api", route_Players_Performance);
 app.use("/api", Teams_Performance);
 app.use("/api", Upcoming_Matches);
 app.use("/api", Detailed_Scorecard);
+app.get("/", (req, res, next) => {
+  res.status(200).json({ message: "wellcome" });
+});
 
 app.listen(PORT, () => {
   connect();
