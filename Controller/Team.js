@@ -1,20 +1,20 @@
 import { Team } from "../Modal/Team.js";
 
 const createTeam = async (req, res, next) => {
-  const body = req.body;
-  // console.log({ body }, ">>>>>>>>>>>>>>>>>>>>>>>.");
+  const { name } = req.body;
+  // console.log("body name ", name);
   try {
-    const newTeam = new Team({
-      ...body,
-    });
+    const existingTeam = await Team.findOne({ name });
+    if (existingTeam) {
+      return res
+        .status(400)
+        .json({ error: "Team with this name already exists" });
+    }
+    const newTeam = new Team({ name });
     const savedTeam = await newTeam.save();
     res.status(201).json({ message: "Team has been created", Team: savedTeam });
   } catch (error) {
-    if (error instanceof Error && error.code === 11000) {
-      res.status(400).json({ error: "Team with this name already exists" });
-    } else {
-      res.status(500).json({ error: "Internal Server Error" });
-    }
+    res.status(500).json({ message: error.message });
   }
 };
 

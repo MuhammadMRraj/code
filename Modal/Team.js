@@ -29,30 +29,50 @@ const detailedScorecardSchema = new mongoose.Schema({
   bestDefense: String,
 });
 
+// const upcomingMatchSchema = new mongoose.Schema({
+//   opponent: String,
+//   date: {
+//     type: Date,
+//     unique: true,
+//   },
+//   time: {
+//     unique: true,
+//     type: String,
+//   },
+//   location: String,
+// });
+
 const upcomingMatchSchema = new mongoose.Schema({
   opponent: String,
   date: {
     type: Date,
-    unique: true,
+    // unique: true,
+    required: true,
+    default: null // Set default value to null
   },
   time: {
-    unique: true,
     type: String,
+    // unique: true,
+    default: null // Set default value to null
   },
   location: String,
 });
 
-const teamSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    unique: true,
-    required: true,
+
+const teamSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      // unique: true,
+      required: true,
+    },
+    playersInformation: [playerPerformanceSchema],
+    teamPerformance: [teamPerformanceSchema],
+    upcomingMatches: [upcomingMatchSchema],
+    detailedScorecard: [detailedScorecardSchema],
   },
-  playersInformation: [playerPerformanceSchema],
-  teamPerformance: [teamPerformanceSchema],
-  upcomingMatches: [upcomingMatchSchema],
-  detailedScorecard: [detailedScorecardSchema],
-});
+  { timestamps: true }
+);
 
 const Team = mongoose.model("Team", teamSchema);
 export { Team };
