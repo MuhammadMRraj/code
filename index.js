@@ -10,7 +10,12 @@ import Detailed_Scorecard from "./View/Detailed_Scorecard.js";
 
 let app = express();
 let PORT = process.env.PORT || 3000;
-app.use(cors());
+app.use(
+  cors({
+    origin: ["*"],
+    credentials: true,
+  })
+);
 
 dotenv.config();
 const connect = () => {
